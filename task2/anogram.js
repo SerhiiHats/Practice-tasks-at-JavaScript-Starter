@@ -57,9 +57,9 @@ function simpleSayIsAnogram(arrStrings) {
     let firstStringOfSort = firstString.split("").sort().join("");
     let secondStringOfSort = secondString.split("").sort().join("");
     console.log(firstStringOfSort + " " + secondStringOfSort);
-    let answer = (firstStringOfSort == secondStringOfSort);
+    let answer = (firstStringOfSort === secondStringOfSort);
     console.log(firstStringOfSort === secondStringOfSort);
-    console.log(firstStringOfSort == secondStringOfSort);
+    console.log(firstStringOfSort === secondStringOfSort);
 
     alert("2-й метод. Первое слово: '" + firstString + "' второе слово: '" + secondString + "' " + (answer ? " является анаграммой (слова состоят из одних и тех же букв)" : " не является анаграммой"));
 }
