@@ -11,51 +11,79 @@ let millionaire = [
         choose: {
             a: "ремонт комп'ютера",
             b: "процес написання програми для комп'ютера",
-            b: "процес написання програми для комп'ютера",
-            c: "нічого з запропонованого"
+            c: "дизайн зображень",
+            d: "нічого з запропонованого"
         },
-        answer: "c",
-        scoreOfGame: 500,
+        answer: "b",
+        score: 500,
     },
     {
         question: "З чого складається комп'ютер?",
         choose: {
             a: "з інтернету",
             b: "з апаратної частини і програмного забезпечення",
-            b: "з клавіатури і принтера",
-            c: "з клавіатури, мишки і монітора"
+            c: "з клавіатури і принтера",
+            d: "з клавіатури, мишки і монітора"
         },
         answer: "b",
-        scoreOfGame: 1000,
+        score: 1000,
     },
     {
         question: "Що розуміється під апаратною частиною комп'ютера?",
         choose: {
             a: "усі частини комп'ютера",
             b: "програма, яку комп'ютер виконує",
-            b: "операційна система встановлена на комп'ютері",
-            c: "нічого з запропонованого"
+            c: "операційна система встановлена на комп'ютері",
+            d: "нічого з запропонованого"
         },
         answer: "a",
-        scoreOfGame: 2000,
-    }
+        score: 2000,
+    },
+    {
+        question: "Що представляє собою програмне забезпечення?",
+        choose: {
+            a: "усі частини комп'ютера",
+            b: "програма, яку комп'ютер виконує",
+            c: "мишка та клавіатура комп'ютера",
+            d: "нічого з запропонованого"
+        },
+        answer: "b",
+        score: 3000,
+    },
+    {
+        question: "Мови асемблери представляють перехідний тип між:",
+        choose: {
+            a: "машинними мовами і мовами нижчого рівня",
+            b: "мовами нижчого рівня і мовами вищого рівня",
+            c: "машинними мовами і мовами вищого рівня",
+            d: "нічого з запропонованого"
+        },
+        answer: "c",
+        score: 5000,
+    },
 ];
 
-
+let scoreOfGame = 0;
 for (const element of millionaire) {
-    let mapOfAllShoose = new Map(element.choose);
-    let allShoose;
-    for (let [key, value] of mapOfAllShoose) {
-        allShoose = key + ": " + value + "\n";
+    let allShoose = "";
+    for (key in element.choose) {
+        allShoose += key + ": " + element.choose[key] + "\n";
     }
-    console.log(allShoose);
+    let userAnswer = prompt("Питання:  " + element.question + "\nВведіть правильну відповідь a, b, c чи d\n" + allShoose);
+    if (userAnswer === element.answer) {
+        scoreOfGame = element.score;
+        if (!confirm("Вірно! \nВаш рахунок складає: " + scoreOfGame + "\nБажаете продовжити гру")){
+            break;
+        }
+    } else {
+        scoreOfGame = 0;
+        alert("Ви програли! \nВаш рахунок складає: " + scoreOfGame);
+        break;
+    }
 
-    let userAnswer = prompt("Введіть правильну відповідь a, b, c чи d \n Питання:" + element.question + "\n" + allShoose);
-    alert(mapOfAllShoose.has(userAnswer) ? "Верно" : "Не верно")
+
 }
 
-
-// var Question = new Object();
-// Question.text = "What is the capital of Thailand?";
-// Question.answers = ['Bangcock', 'Bangdick', 'Bandtits', 'Bangpussy'];
-// Question.right = "Bangcock"
+if (scoreOfGame === 2000) {
+    alert("Приміть вітання ви виграли гру." + "\nВаш рахунок складає: " + scoreOfGame);
+}
