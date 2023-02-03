@@ -5,8 +5,7 @@
  *  что ввел пользователь, сумма которую выиграл пользователь).
  *  Определите минимум 5 вопросов. Вопросы с вариантами ответов вы можете придумать самостоятельно, а можете воспользоваться поиском.
  **/
-let millionaire = [
-    {
+let millionaire = [{
         question: "Що таке програмування?",
         choose: {
             a: "ремонт комп'ютера",
@@ -72,29 +71,156 @@ let millionaire = [
         answer: "b",
         score: 8000,
     },
+    {
+        question: "Блок-схеми у програмуванні представляють собою:",
+        choose: {
+            a: "чорнетки мовою програмування",
+            b: "перелік даних які є вхідними",
+            c: "текстовий метод написання алгоритму",
+            d: "графічний спосіб написання алгоритму"
+        },
+        answer: "d",
+        score: 10000,
+    },
+    {
+        question: "Існує максимальна кількість кроків, які повинен мати один алгоритм:",
+        choose: {
+            a: "не більше 1",
+            b: "саме так",
+            c: "ні",
+            d: "ні чого з запропанованого"
+        },
+        answer: "c",
+        score: 13000,
+    },
+    {
+        question: "Чи може в завданні бути більше однієї умови:",
+        choose: {
+            a: "так",
+            b: "ні",
+            c: "не більше двох",
+            d: "не більше кількості вихідних даних"
+        },
+        answer: "a",
+        score: 15000,
+    },
+    {
+        question: "Чи необхідно, щоб змінна мала початкове значення:",
+        choose: {
+            a: "так хочаб 0",
+            b: "так хочаб пробіл",
+            c: "так",
+            d: "ні"
+        },
+        answer: "d",
+        score: 25000,
+    },
+    {
+        question: "String - значення записуються наступним чином:",
+        choose: {
+            a: "в дужках",
+            b: "між знаками подвійних лапок",
+            c: "між двома символами %",
+            d: "між косими лініями"
+        },
+        answer: "b",
+        score: 50000,
+    },
+    {
+        question: "В JavaScript +, -i * - це:",
+        choose: {
+            a: "функції",
+            b: "класи",
+            c: "оператори",
+            d: "об'єкти"
+        },
+        answer: "c",
+        score: 100000,
+    },
+    {
+        question: "let a = 'hello'. Тип змінної а є:",
+        choose: {
+            a: "string",
+            b: "number",
+            c: "boolean",
+            d: "object"
+        },
+        answer: "a",
+        score: 250000,
+    },
+    {
+        question: "Метод масиву lastIndexOf() повертає:",
+        choose: {
+            a: "останній індекс массиву у разі коли в масиві наявні елементи",
+            b: "останній елемент массиву у разі наявності елементів",
+            c: "повертає останній індекс, по якому єлемент може бути знайдено",
+            d: "повертає 0 у разі відсутності єлементу"
+        },
+        answer: "c",
+        score: 500000,
+    },
+    {
+        question: "Метод has() колекції множени значень Set() повертає:",
+        choose: {
+            a: "додає значення, повертає той самий об'єкт",
+            b: "повертає true, якщо значення є у множині",
+            c: "повертає кількість елементів у множині",
+            d: "видаляє значення, повертає true"
+        },
+        answer: "b",
+        score: 1000000,
+    },
 ];
 
-let scoreOfGame = 0;
+let maxScoreOfGame = 0;
+let minScoreOfGame = 0;
+let setNotFireScore = new Set([5000, 25000]);
+let presentAnswer = false;
+let userAnswer;
+
+alert('       Гра "Як стати мільйонером". \nпитання 15, несгоряємі суми 5000 та 25000, головний приз 1000000$\n       Починаєм!')
+
 for (const element of millionaire) {
     let allShoose = "";
     for (key in element.choose) {
-        allShoose += key + ": " + element.choose[key] + "\n";
+        allShoose += "   " + key + ": " + element.choose[key] + "\n";
     }
-    let userAnswer = prompt("Питання:  " + element.question + "\nВведіть правильну відповідь a, b, c чи d\n" + allShoose);
+
+    while (!presentAnswer) {
+        userAnswer = prompt("Питання:  " + element.question + "\nВведіть правильну відповідь a, b, c чи d\n" + allShoose);
+        presentAnswer = isPresentAnswer(userAnswer);
+    }
+
+    presentAnswer = false;
+
     if (userAnswer === element.answer) {
-        scoreOfGame = element.score;
-        if (!confirm("Вірно! \nВаш рахунок складає: " + scoreOfGame + "\nБажаете продовжити гру")){
+        maxScoreOfGame = element.score;
+        minScoreOfGame = (setNotFireScore.has(maxScoreOfGame)) ? maxScoreOfGame : minScoreOfGame;
+        if (!confirm("       Вірно!" + (setNotFireScore.has(maxScoreOfGame) ? "\nВітаємо з добутком незгоряємої суми: " + maxScoreOfGame + "$" : "") + "\nВаш рахунок складає: " + maxScoreOfGame + "$\nБажаете продовжити гру")) {
             break;
         }
     } else {
-        scoreOfGame = 0;
-        alert("Ви програли! \nВаш рахунок складає: " + scoreOfGame);
+        maxScoreOfGame = 0;
+        alert("       Ви програли! " + (minScoreOfGame !== 0 ? "\nПроте у вас є незгоряєма сума: " + minScoreOfGame + "$" : " ") + "\nВаш рахунок складає: " + minScoreOfGame + "$");
         break;
     }
+}
+isWon(minScoreOfGame, maxScoreOfGame);
 
 
+function isPresentAnswer(userAnswer) {
+    if (!(userAnswer === "a" || userAnswer === "b" || userAnswer === "c" || userAnswer === "d")) {
+        alert("       Ви надали відповідь: '" + userAnswer + "'\nТакого варіанту не має \nможливі відповіді: a, b, c чи d \nПеревірте розкладку клавіатури та повторіть ще раз!");
+    }
+    return (userAnswer === "a" || userAnswer === "b" || userAnswer === "c" || userAnswer === "d");
 }
 
-if (scoreOfGame === 2000) {
-    alert("Приміть вітання ви виграли гру." + "\nВаш рахунок складає: " + scoreOfGame);
+function isWon(minScoreOfGame, maxScoreOfGame) {
+    if (maxScoreOfGame === 0 && minScoreOfGame === 0) {
+        alert("       Кінець гри! \nВаш виграш склав: " + minScoreOfGame + "$");
+    } else if (maxScoreOfGame === 1000000) {
+        alert("       Ви перемогли! \nВаш виграш склав: " + maxScoreOfGame + "$\n       Кінець гри!");
+    } else {
+        alert("       Ви майже перемогли! \nВаш виграш склав: " + (maxScoreOfGame !== 0 ? maxScoreOfGame : minScoreOfGame) + "$       \nНаступного разу вам більше пощастить\n       Кінець гри!");
+    }
 }
